@@ -6,11 +6,28 @@
     <router-link to="/dashboard">
       Dashboard
     </router-link>
+    <router-link v-if="!isLoggedIn" class="button" to="/login">
+      Login
+    </router-link>
+    <button v-else type="button" @click="logout">
+      Logout
+    </button>
   </div>
 </template>
 
 <script>
-export default {}
+import { authComputed } from '@/veux/helper'
+
+export default {
+  computed: {
+    ...authComputed
+  },
+  methods: {
+    logout () {
+      this.$store.dispatch('logout')
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
