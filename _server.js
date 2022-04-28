@@ -63,8 +63,8 @@ app.post('/login', (req, res) => {
   var userInfo = JSON.parse(userDB)
   if (
     req.body &&
-    req.body.email === userInfo.email &&
-    req.body.password === userInfo.password
+      req.body.email === userInfo.email &&
+      req.body.password === userInfo.password
   ) {
     // The secret key should be an environment variable in a live app
     const token = jwt.sign({ userInfo }, 'the_secret_key')

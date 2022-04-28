@@ -16,9 +16,15 @@ app.get('/', (req, res) => {
   })
 })
 
-app.get('/dashboard', (req, res) => {
-  res.json({
-    events: events
+app.get('/dashboard', verifyToken, (req, res) => {
+  jwt.verify(req.token, 'the_secret_key', err => {
+    if (err) {
+      res.sendStatus(401)
+    } else {
+      res.json({
+        events: events
+      })
+    }
   })
 })
 
@@ -61,8 +67,8 @@ app.post('/login', (req, res) => {
   const userInfo = JSON.parse(userDB)
   if (
     req.body &&
-    req.body.email === userInfo.email &&
-    req.body.password === userInfo.password
+        req.body.email === userInfo.email &&
+        req.body.password === userInfo.password
   ) {
     const token = jwt.sign({ userInfo }, 'the_secret_key')
     // In a production app, you'll want the secret key to be an environment variable
