@@ -31,6 +31,8 @@
         value
       >
 
+      <p>{{ error }}</p>
+
       <button type="submit" name="button">
         Register
       </button>
@@ -49,7 +51,8 @@ export default {
     return {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      error: null
     }
   },
   methods: {
@@ -58,6 +61,11 @@ export default {
       this.$store.dispatch('register', { name: this.name, email: this.email, password: this.password })
         .then(() => {
           this.$router.push({ name: 'dashboard' })
+        })
+        .catch(err => {
+          console.log('**8')
+          console.log(err.response.data)
+          this.error = err.response.data
         })
     }
   }

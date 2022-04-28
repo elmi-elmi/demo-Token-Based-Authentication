@@ -5,9 +5,10 @@
       <input v-model="email" type="email">
       <label>Password</label>
       <input v-model="password" type="password">
-      <button type="submit">
+      <button type="submit" name="button">
         Login
       </button>
+      <p>{{ error }}</p>
     </form>
     <router-link to="/register">
       Don't have an account? Register here!
@@ -21,7 +22,8 @@ export default {
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      error: null
     }
   },
   methods: {
@@ -29,6 +31,9 @@ export default {
       this.$store.dispatch('login', { email: this.email, password: this.password })
         .then(() => {
           this.$router.push({ name: 'dashboard' })
+        })
+        .catch((err) => {
+          this.error = err.response.data
         })
     }
 
